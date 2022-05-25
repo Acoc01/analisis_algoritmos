@@ -46,7 +46,10 @@ public:
   // En el bucket i
   void clusterBi(std::string kmer);
   // Funcion que verifica numeros de colisiones en la tabla.
-  int cCount();
+  long long int cCount();
   // Funcion que define el todos los kmers.
+  void clear();
+  // Funcion que setea un a y b aleatorio
+  void modAB();
 };
 #endif

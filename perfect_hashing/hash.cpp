@@ -8,7 +8,6 @@
 void kmers(std::vector<std::string> &v1, std::string seg, int k);
 
 int main() {
-  std::srand(time(NULL));
 
   std::cout << "Ingrese nombre del archivo: " << std::endl;
 
@@ -25,7 +24,8 @@ int main() {
       getline(newFile, line);
       if (line.size() >= x)
         x = line.size();
-      kmers(k1, line, 15);
+      if (line != "")
+        kmers(k1, line, 15);
       S++;
     }
     newFile.close();
@@ -35,13 +35,42 @@ int main() {
   int n = S * (x - 15 + 1);
   // Numero de buckets
   int m = n;
-  std::cout << "El tamanio de k-mers en el archivo es: " << n << std::endl;
-  std::cout << "El tamanio de cada linea de genoma es: " << x << std::endl;
-  std::cout << "El arreglo k1 tiene: " << k1.size() << " kmers" << std::endl;
 
-  // pHash newTable(m, 1137551);
+  pHash newTable(m, 7342117);
   //   Sacamos el hashing de todos los k-mers
-
+  long long int sum;
+  int cont = 1;
+  long long int prop1 = 4 * n;
+  std::srand(time(NULL));
+  newTable.modAB();
+  std::cout << "Calculando posicion de cada kmer..." << std::endl;
+  for (int i = 0; i < k1.size(); ++i) {
+    newTable.clusterBi(k1[i]);
+  }
+  sum = newTable.cCount();
+  if (sum <= prop1) {
+    std::cout << "La cantidad de veces que se repitio el hashing hasta cumplir "
+                 "prop 1 es: "
+              << cont;
+    std::cout << std::endl;
+    std::cout << "ci*ci = " << sum << std::endl;
+    std::cout << "4n = " << prop1 << std::endl;
+  } else {
+    std::cout << "La funcion no es optima." << std::endl;
+    while (sum > prop1) {
+      std::cout << "Calculando nueva funcion..." << std::endl;
+      std::srand(time(NULL));
+      newTable.modAB();
+      for (int i = 0; i < k1.size(); ++i) {
+        newTable.clusterBi(k1[i]);
+      }
+      sum = newTable.cCount();
+      cont++;
+      if (sum <= prop1)
+        std::cout << "La cantidad de veces repetidas hasta que ci*ci < 4*n: "
+                  << cont << std::endl;
+    }
+  }
   return 0;
 }
 
@@ -49,6 +78,8 @@ void kmers(std::vector<std::string> &v1, std::string seg, int k) {
   int size = seg.size();
   int kmer_size = size - k + 1;
   for (int i = 0; i < kmer_size; ++i) {
-    v1.push_back(seg.substr(i, i + k - 1));
+    int posi = i, posf = i + k;
+    if (posf <= size)
+      v1.push_back(seg.substr(posi, k));
   }
 }
