@@ -41,7 +41,7 @@ int main() {
   pHash newTable(m, 7342117);
   //   Sacamos el hashing de todos los k-mers
   newTable.modAB();
-  newTable.setAB(2861745, 4093531);
+  newTable.setAB(6152820, 1965429);
   std::cout << "[+] Calculando posicion de cada kmer..." << std::endl;
   for (int i = 0; i < k1.size(); ++i) {
     newTable.clusterBi(k1[i]);
