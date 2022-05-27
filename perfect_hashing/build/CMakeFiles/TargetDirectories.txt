@@ -1,0 +1,8 @@
+/home/roako/Desktop/roako/repos/analisis_algoritmos/analisis_algoritmos/perfect_hashing/build/CMakeFiles/edit_cache.dir
+/home/roako/Desktop/roako/repos/analisis_algoritmos/analisis_algoritmos/perfect_hashing/build/CMakeFiles/rebuild_cache.dir
+/home/roako/Desktop/roako/repos/analisis_algoritmos/analisis_algoritmos/perfect_hashing/build/table/CMakeFiles/estructura.dir
+/home/roako/Desktop/roako/repos/analisis_algoritmos/analisis_algoritmos/perfect_hashing/build/table/CMakeFiles/edit_cache.dir
+/home/roako/Desktop/roako/repos/analisis_algoritmos/analisis_algoritmos/perfect_hashing/build/table/CMakeFiles/rebuild_cache.dir
+/home/roako/Desktop/roako/repos/analisis_algoritmos/analisis_algoritmos/perfect_hashing/build/primer_nivel/CMakeFiles/nivel1.dir
+/home/roako/Desktop/roako/repos/analisis_algoritmos/analisis_algoritmos/perfect_hashing/build/primer_nivel/CMakeFiles/edit_cache.dir
+/home/roako/Desktop/roako/repos/analisis_algoritmos/analisis_algoritmos/perfect_hashing/build/primer_nivel/CMakeFiles/rebuild_cache.dir

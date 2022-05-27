@@ -1,0 +1,2 @@
+/usr/bin/ar qc libestructura.a CMakeFiles/estructura.dir/hs.cpp.o
+/usr/bin/ranlib libestructura.a
