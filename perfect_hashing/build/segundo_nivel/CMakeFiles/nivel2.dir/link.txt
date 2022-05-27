@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/nivel2.dir/hash2.cpp.o -o nivel2  ../table/libestructura.a 

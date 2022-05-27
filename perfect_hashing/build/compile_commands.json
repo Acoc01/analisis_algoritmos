@@ -8,5 +8,10 @@
   "directory": "/home/roako/Desktop/roako/repos/analisis_algoritmos/analisis_algoritmos/perfect_hashing/build/primer_nivel",
   "command": "/usr/bin/c++  -I/home/roako/Desktop/roako/repos/analisis_algoritmos/analisis_algoritmos/perfect_hashing/table/.  -o CMakeFiles/nivel1.dir/hash.cpp.o -c /home/roako/Desktop/roako/repos/analisis_algoritmos/analisis_algoritmos/perfect_hashing/primer_nivel/hash.cpp",
   "file": "/home/roako/Desktop/roako/repos/analisis_algoritmos/analisis_algoritmos/perfect_hashing/primer_nivel/hash.cpp"
+},
+{
+  "directory": "/home/roako/Desktop/roako/repos/analisis_algoritmos/analisis_algoritmos/perfect_hashing/build/segundo_nivel",
+  "command": "/usr/bin/c++  -I/home/roako/Desktop/roako/repos/analisis_algoritmos/analisis_algoritmos/perfect_hashing/table/.  -o CMakeFiles/nivel2.dir/hash2.cpp.o -c /home/roako/Desktop/roako/repos/analisis_algoritmos/analisis_algoritmos/perfect_hashing/segundo_nivel/hash2.cpp",
+  "file": "/home/roako/Desktop/roako/repos/analisis_algoritmos/analisis_algoritmos/perfect_hashing/segundo_nivel/hash2.cpp"
 }
 ]

@@ -42,6 +42,7 @@ void pHash::createMiniL(struct mini_list *ls) {
   ls->ai = 0;
   ls->bi = 0;
   ls->mi = 0;
+  ls->ci = 0;
 }
 /*Funcion para debuguear que se uso para formar los buckets*/
 void pHash::printBucket() {
@@ -66,16 +67,41 @@ void pHash::modifyTable() {
     this->table[i].list_i.mi = (i + 10) * 10;
   }
 }
+
+// Genera una nueva lista de tamanio ci^2.
+void pHash::makeList() {
+  for (int pos = 0; pos < this->tam_bucket; pos++) {
+    this->table[pos].list_i.buck.clear();
+    int tam = pow((double)this->table[pos].c, 2);
+    this->table[pos].list_i.mi = tam;
+    std::vector<std::string> nwv(tam);
+    this->table[pos].list_i.buck = nwv;
+    this->modAB(pos);
+  }
+}
 // Hace push de un elemento en el bucket para ver cuantas
 // Colisiones se crean en el bucket i
 void pHash::clusterBi(std::string kmer) {
   // Tentativa posicion dada por hash
   int pos = hashFun(kmer, this->prm, this->tam_bucket, this->a, this->b);
-  while (pos >= this->tam_bucket) {
-    pos = hashFun(kmer, this->prm, this->tam_bucket, this->a, this->b);
-  }
-  // std::cout << pos << std::endl;
   this->table[pos].c++;
+}
+/*Para usar esta funcion se tiene que obtener primero la posicion
+del bucket al que corresponde el kmer. Luego de eso se llama a esta
+funcion que calcula la posicion del kmer dentro de la lista de ese
+bucket. Si encuentra colisiones le suma a una variable que cuenta
+el numero de colisiones de la lista de ese bucket.
+La idea es repetir este proceso llamando a modAB(pos) antes de calcular
+todos los clusters de todas las listas hasta que esos cluster sean 0.*/
+void pHash::clusterBj(std::string kmer) {
+  int pos = hashFun(kmer, this->prm, this->tam_bucket, this->a, this->b);
+  int tam = this->table[pos].list_i.mi;
+  int ai = this->table[pos].list_i.ai;
+  int bi = this->table[pos].list_i.bi;
+  int i = hashFun(kmer, this->prm, tam, ai, bi);
+
+  if (this->table[pos].list_i.buck[i] != "")
+    this->table[pos].list_i.ci++;
 }
 // Cuenta cuantas colisiones hay en total en el la tabla
 long long int pHash::cCount() {
@@ -89,6 +115,8 @@ long long int pHash::cCount() {
   }
   return sum;
 }
+
+long long int pHash::cCounti(int pos) { return this->table[pos].list_i.ci; }
 
 /*Modifica a y b de forma aleatoria*/
 void pHash::modAB() {
@@ -112,4 +140,14 @@ std::pair<int, int> pHash::getAB(int pos) {
   int aj = this->table[pos].list_i.ai;
   int bj = this->table[pos].list_i.bi;
   return std::make_pair(aj, bj);
+}
+
+void pHash::setAB(int a, int b) {
+  this->a = a;
+  this->b = b;
+}
+
+void pHash::setAB(int a, int b, int pos) {
+  this->table[pos].list_i.ai = a;
+  this->table[pos].list_i.bi = b;
 }

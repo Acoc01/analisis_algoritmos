@@ -8,6 +8,7 @@ struct mini_list {
   int mi;
   int ai;
   int bi;
+  int ci;
   std::vector<std::string> buck;
 };
 
@@ -42,11 +43,18 @@ public:
   // Funcion que puede ser modificada para
   // debuguear la tabla
   void modifyTable();
+  // Funcion que crea la Lista para cada Bucket
+  void makeList();
   // Funcion que verifica cuantas colisiones hay
   // En el bucket i
   void clusterBi(std::string kmer);
+  // Funcion que verifica cuantas colisiones hay
+  // En cada lista Bj
+  void clusterBj(std::string kmer);
   // Funcion que verifica numeros de colisiones en la tabla.
   long long int cCount();
+  // Funcion que verifica numeros de colisiones en la lista_i.
+  long long int cCounti(int pos);
   // Funcion que define el todos los kmers.
   void clear();
   // Funcion que setea un a y b aleatorio
@@ -55,5 +63,8 @@ public:
   // Funcion que devuelve a y b correspondiente
   std::pair<int, int> getAB();        // Para a_i e b_i
   std::pair<int, int> getAB(int pos); // Para a_j y b_j
+  // Funcion que setea a y b correspondiente
+  void setAB(int a, int b);
+  void setAB(int a, int b, int pos);
 };
 #endif

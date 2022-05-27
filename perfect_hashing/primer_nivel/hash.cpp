@@ -42,7 +42,8 @@ int main() {
   //   Sacamos el hashing de todos los k-mers
   long long int sum;
   int cont = 1;
-  long long int prop1 = 4 * n;
+  double aux = n * ((double)5 / 2);
+  long long int prop1 = aux;
   std::srand(time(NULL));
   newTable.modAB();
   std::cout << "Calculando posicion de cada kmer..." << std::endl;
@@ -60,22 +61,29 @@ int main() {
               << cont;
     std::cout << std::endl;
     std::cout << "ci*ci = " << sum << std::endl;
-    std::cout << "4n = " << prop1 << std::endl;
+    std::cout << "2n = " << prop1 << std::endl;
     std::cout << "Para constante a_i e b_i: " << ai << " " << bi << std::endl;
   } else {
     std::cout << "La funcion no es optima." << std::endl;
     while (sum > prop1) {
       std::cout << "Calculando nueva funcion..." << std::endl;
-      std::srand(time(NULL));
       newTable.modAB();
       for (int i = 0; i < k1.size(); ++i) {
         newTable.clusterBi(k1[i]);
       }
       sum = newTable.cCount();
       cont++;
-      if (sum <= prop1)
-        std::cout << "La cantidad de veces repetidas hasta que ci*ci < 4*n: "
+      std::cout << "Sumatoria = " << sum << std::endl;
+      std::cout << "2n = " << prop1 << std::endl;
+      if (sum <= prop1) {
+        std::cout << "La cantidad de veces repetidas hasta que ci*ci < 2*n: "
                   << cont << std::endl;
+        std::pair<int, int> p2 = newTable.getAB();
+        int a_i2 = p2.first, b_i2 = p2.second;
+        std::cout << "Para constante a_i e b_i: " << a_i2 << " " << b_i2
+                  << std::endl;
+        break;
+      }
     }
   }
   return 0;

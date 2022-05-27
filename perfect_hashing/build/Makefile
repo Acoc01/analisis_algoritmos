@@ -142,6 +142,19 @@ nivel1/fast:
 	$(MAKE) $(MAKESILENT) -f primer_nivel/CMakeFiles/nivel1.dir/build.make primer_nivel/CMakeFiles/nivel1.dir/build
 .PHONY : nivel1/fast
 
+#=============================================================================
+# Target rules for targets named nivel2
+
+# Build rule for target.
+nivel2: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 nivel2
+.PHONY : nivel2
+
+# fast build rule for target.
+nivel2/fast:
+	$(MAKE) $(MAKESILENT) -f segundo_nivel/CMakeFiles/nivel2.dir/build.make segundo_nivel/CMakeFiles/nivel2.dir/build
+.PHONY : nivel2/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -152,6 +165,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... estructura"
 	@echo "... nivel1"
+	@echo "... nivel2"
 .PHONY : help
 
 

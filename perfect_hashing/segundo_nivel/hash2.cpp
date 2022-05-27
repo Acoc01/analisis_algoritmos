@@ -10,7 +10,7 @@ void kmers(std::vector<std::string> &v1, std::string seg, int k);
 int main() {
 
   std::cout << "Ingrese nombre del archivo: " << std::endl;
-
+  std::srand(time(NULL));
   std::string filename, line;
   std::cin >> filename;
   // Cardinalidad del conjunto de Genomas
@@ -18,6 +18,8 @@ int main() {
   std::ifstream newFile(filename);
   std::vector<std::string> k1;
 
+  std::cout << "[+] Calculando tamaño del archivo y generando k-mers..."
+            << std::endl;
   // Cuenta cuantas lineas tiene el archivo de genomas
   if (newFile.is_open()) {
     while (newFile.peek() != EOF) {
@@ -38,38 +40,33 @@ int main() {
 
   pHash newTable(m, 7342117);
   //   Sacamos el hashing de todos los k-mers
-  long long int sum;
-  int cont = 1;
-  long long int prop1 = 4 * n;
-  std::srand(time(NULL));
   newTable.modAB();
-  std::cout << "Calculando posicion de cada kmer..." << std::endl;
+  newTable.setAB(2861745, 4093531);
+  std::cout << "[+] Calculando posicion de cada kmer..." << std::endl;
   for (int i = 0; i < k1.size(); ++i) {
     newTable.clusterBi(k1[i]);
   }
-  sum = newTable.cCount();
-  if (sum <= prop1) {
-    std::cout << "La cantidad de veces que se repitio el hashing hasta cumplir "
-                 "prop 1 es: "
-              << cont;
-    std::cout << std::endl;
-    std::cout << "ci*ci = " << sum << std::endl;
-    std::cout << "4n = " << prop1 << std::endl;
-  } else {
-    std::cout << "La funcion no es optima." << std::endl;
-    while (sum > prop1) {
-      std::cout << "Calculando nueva funcion..." << std::endl;
-      std::srand(time(NULL));
-      newTable.modAB();
-      for (int i = 0; i < k1.size(); ++i) {
-        newTable.clusterBi(k1[i]);
-      }
-      sum = newTable.cCount();
+  // Ahora debemos crear las tablas para cada bucket.
+  // Las tablas estan con un a y b aleatorio desde el inicio
+  std::cout << "[+] Creando listas para cada Bucket..." << std::endl;
+  newTable.makeList();
+  // Una vez creada cada lista hay que escoger los a y b para cada
+  // lista que no genera colisiones.
+  std::cout << "[+] Calculando a_j y b_j para cada lista..." << std::endl;
+  for (int i = 0; i < k1.size(); ++i) {
+    newTable.clusterBj(k1[i]);
+  }
+  int cont = 0;
+  for (int i = 0; i < m; ++i) {
+    if (newTable.cCounti(i) == 0) {
+      // std::cout << "[+] No hay colisiones, las variables a_j y b_j son: ";
+      // std::pair<int, int> p = newTable.getAB(i);
+      // std::cout << p.first << " " << p.second << std::endl;
       cont++;
-      if (sum <= prop1)
-        std::cout << "La cantidad de veces repetidas hasta que ci*ci < 4*n: "
-                  << cont << std::endl;
     }
+  }
+  if (cont == m) {
+    std::cout << "[+] No hay colisiones en ninguna lista." << std::endl;
   }
   return 0;
 }

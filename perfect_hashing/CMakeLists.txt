@@ -5,3 +5,4 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_subdirectory(table)
 add_subdirectory(primer_nivel)
+add_subdirectory(segundo_nivel)

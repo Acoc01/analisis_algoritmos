@@ -12,6 +12,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.23.1/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.23.1/CMakeSystem.cmake"
   "../primer_nivel/CMakeLists.txt"
+  "../segundo_nivel/CMakeLists.txt"
   "../table/CMakeLists.txt"
   "/usr/share/cmake/Modules/CMakeCInformation.cmake"
   "/usr/share/cmake/Modules/CMakeCXXInformation.cmake"
@@ -43,10 +44,12 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/CMakeDirectoryInformation.cmake"
   "table/CMakeFiles/CMakeDirectoryInformation.cmake"
   "primer_nivel/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "segundo_nivel/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "table/CMakeFiles/estructura.dir/DependInfo.cmake"
   "primer_nivel/CMakeFiles/nivel1.dir/DependInfo.cmake"
+  "segundo_nivel/CMakeFiles/nivel2.dir/DependInfo.cmake"
   )
