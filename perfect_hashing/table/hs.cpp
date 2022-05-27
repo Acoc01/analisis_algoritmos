@@ -99,15 +99,16 @@ void pHash::clusterBj(std::string kmer) {
   int ai = this->table[pos].list_i.ai;
   int bi = this->table[pos].list_i.bi;
   int i = hashFun(kmer, this->prm, tam, ai, bi);
-
-  if (this->table[pos].list_i.buck[i] != "")
-    this->table[pos].list_i.ci++;
+  if (this->table[pos].c > 1)
+    if (this->table[pos].list_i.buck[i] != "")
+      this->table[pos].list_i.ci++;
 }
 // Cuenta cuantas colisiones hay en total en el la tabla
 long long int pHash::cCount() {
   long long int sum = 0;
   for (int i = 0; i < this->table.size(); ++i) {
-    if (this->table[i].c >= 1)
+    // Se considera colision si cae mas de un elemento en i.
+    if (this->table[i].c > 1)
       sum += pow(this->table[i].c, 2);
   }
   for (int i = 0; i < this->table.size(); ++i) {
@@ -125,8 +126,10 @@ void pHash::modAB() {
 }
 
 void pHash::modAB(int pos) {
-  this->table[pos].list_i.ai = randInt(this->prm);
-  this->table[pos].list_i.bi = randInt(this->prm);
+  if (this->table[pos].c > 1) {
+    this->table[pos].list_i.ai = randInt(this->prm);
+    this->table[pos].list_i.bi = randInt(this->prm);
+  }
 }
 /*Destructor*/
 void pHash::clear() {
