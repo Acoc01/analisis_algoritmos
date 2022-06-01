@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <random>
+#include <set>
 #include <vector>
 
 void kmers(std::vector<std::string> &v1, std::string seg, int k);
@@ -17,6 +18,7 @@ int main() {
   int S = 0, x = 15;
   std::ifstream newFile(filename);
   std::vector<std::string> k1;
+  std::set<std::string> set1;
 
   std::cout << "[+] Calculando tamaño del archivo y generando k-mers..."
             << std::endl;
@@ -32,23 +34,28 @@ int main() {
     }
     newFile.close();
   }
-
+  std::cout << "[+] Acomodando elementos repetidos..." << std::endl;
+  for (int i = 0; i < k1.size(); ++i) {
+    set1.insert(k1[i]);
+  }
+  std::cout << "[+] Tamanio de claves sin repetir: " << set1.size()
+            << std::endl;
   // Para prueba 1 hacer m = n.
-  int n = S * (x - 15 + 1);
+  int n = set1.size();
   // Numero de buckets
   int m = n;
-
+  std::set<std::string>::iterator itr;
   pHash newTable(m, 7342117);
   //   Sacamos el hashing de todos los k-mers
   long long int sum;
   int cont = 1;
   double aux = n * ((double)5 / 2);
-  long long int prop1 = 2 * n;
+  long long int prop1 = aux;
   std::srand(time(NULL));
   newTable.modAB();
   std::cout << "[+] Calculando posicion de cada kmer..." << std::endl;
-  for (int i = 0; i < k1.size(); ++i) {
-    newTable.clusterBi(k1[i]);
+  for (itr = set1.begin(); itr != set1.end(); ++itr) {
+    newTable.clusterBi(*itr);
   }
   std::cout << "[+] Calculando variables a_i e b_i para el primer nivel..."
             << std::endl;
@@ -70,13 +77,13 @@ int main() {
       std::cout << "[-] La funcion no es optima." << std::endl;
       std::cout << "[+] Calculando nueva funcion..." << std::endl;
       newTable.modAB();
-      for (int i = 0; i < k1.size(); ++i) {
-        newTable.clusterBi(k1[i]);
+      for (itr = set1.begin(); itr != set1.end(); ++itr) {
+        newTable.clusterBi(*itr);
       }
       sum = newTable.cCount();
       cont++;
-      // std::cout << "Sumatoria = " << sum << std::endl;
-      // std::cout << "2n = " << prop1 << std::endl;
+      std::cout << "Sumatoria = " << sum << std::endl;
+      std::cout << "2n = " << prop1 << std::endl;
       if (sum <= prop1) {
         std::cout
             << "[+] La cantidad de veces repetidas hasta que ci*ci < 2*n: "

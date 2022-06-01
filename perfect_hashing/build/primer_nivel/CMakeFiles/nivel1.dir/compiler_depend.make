@@ -248,7 +248,11 @@ primer_nivel/CMakeFiles/nivel1.dir/hash.cpp.o: ../primer_nivel/hash.cpp \
   /usr/include/c++/11.2.0/numeric \
   /usr/include/c++/11.2.0/bits/stl_numeric.h \
   /usr/include/c++/11.2.0/bit \
-  /usr/include/c++/11.2.0/pstl/glue_numeric_defs.h
+  /usr/include/c++/11.2.0/pstl/glue_numeric_defs.h \
+  /usr/include/c++/11.2.0/set \
+  /usr/include/c++/11.2.0/bits/stl_tree.h \
+  /usr/include/c++/11.2.0/bits/stl_set.h \
+  /usr/include/c++/11.2.0/bits/stl_multiset.h
 
 
 /usr/include/c++/11.2.0/numeric:
@@ -322,6 +326,8 @@ primer_nivel/CMakeFiles/nivel1.dir/hash.cpp.o: ../primer_nivel/hash.cpp \
 /usr/include/c++/11.2.0/bits/stl_relops.h:
 
 /usr/include/c++/11.2.0/bits/vector.tcc:
+
+/usr/include/c++/11.2.0/set:
 
 /usr/include/c++/11.2.0/bits/stl_bvector.h:
 
@@ -497,6 +503,8 @@ primer_nivel/CMakeFiles/nivel1.dir/hash.cpp.o: ../primer_nivel/hash.cpp \
 
 /usr/include/c++/11.2.0/bits/functexcept.h:
 
+/usr/include/c++/11.2.0/bits/stl_tree.h:
+
 /usr/include/c++/11.2.0/ext/type_traits.h:
 
 /usr/include/c++/11.2.0/x86_64-pc-linux-gnu/bits/os_defines.h:
@@ -516,6 +524,8 @@ primer_nivel/CMakeFiles/nivel1.dir/hash.cpp.o: ../primer_nivel/hash.cpp \
 /usr/include/bits/types/struct_tm.h:
 
 /usr/include/c++/11.2.0/cwchar:
+
+/usr/include/c++/11.2.0/bits/stl_set.h:
 
 /usr/include/c++/11.2.0/bits/move.h:
 
@@ -550,6 +560,8 @@ primer_nivel/CMakeFiles/nivel1.dir/hash.cpp.o: ../primer_nivel/hash.cpp \
 /usr/include/stdc-predef.h:
 
 /usr/include/c++/11.2.0/new:
+
+/usr/include/c++/11.2.0/bits/stl_multiset.h:
 
 /usr/include/c++/11.2.0/functional:
 

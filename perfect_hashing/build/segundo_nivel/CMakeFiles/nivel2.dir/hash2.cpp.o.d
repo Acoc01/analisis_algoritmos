@@ -184,4 +184,7 @@ segundo_nivel/CMakeFiles/nivel2.dir/hash2.cpp.o: \
  /usr/include/c++/11.2.0/x86_64-pc-linux-gnu/bits/opt_random.h \
  /usr/include/c++/11.2.0/bits/random.tcc /usr/include/c++/11.2.0/numeric \
  /usr/include/c++/11.2.0/bits/stl_numeric.h /usr/include/c++/11.2.0/bit \
- /usr/include/c++/11.2.0/pstl/glue_numeric_defs.h
+ /usr/include/c++/11.2.0/pstl/glue_numeric_defs.h \
+ /usr/include/c++/11.2.0/set /usr/include/c++/11.2.0/bits/stl_tree.h \
+ /usr/include/c++/11.2.0/bits/stl_set.h \
+ /usr/include/c++/11.2.0/bits/stl_multiset.h

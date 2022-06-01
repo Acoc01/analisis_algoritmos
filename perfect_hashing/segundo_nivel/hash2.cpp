@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <random>
+#include <set>
 #include <vector>
 
 void kmers(std::vector<std::string> &v1, std::string seg, int k);
@@ -17,6 +18,7 @@ int main() {
   int S = 0, x = 15;
   std::ifstream newFile(filename);
   std::vector<std::string> k1;
+  std::set<std::string> set1;
 
   std::cout << "[+] Calculando tamaño del archivo y generando k-mers..."
             << std::endl;
@@ -32,19 +34,23 @@ int main() {
     }
     newFile.close();
   }
-
+  std::cout << "[+] Acomodando elementos repetidos..." << std::endl;
+  for (int i = 0; i < k1.size(); ++i) {
+    set1.insert(k1[i]);
+  }
   // Para prueba 1 hacer m = n.
   int n = S * (x - 15 + 1);
   // Numero de buckets
   int m = n;
+  std::set<std::string>::iterator itr;
 
   pHash newTable(m, 7342117);
   //   Sacamos el hashing de todos los k-mers
   newTable.modAB();
-  newTable.setAB(6152820, 1965429);
+  newTable.setAB(6273927, 6617981);
   std::cout << "[+] Calculando posicion de cada kmer..." << std::endl;
-  for (int i = 0; i < k1.size(); ++i) {
-    newTable.clusterBi(k1[i]);
+  for (itr = set1.begin(); itr != set1.end(); ++itr) {
+    newTable.clusterBi(*itr);
   }
   // Ahora debemos crear las tablas para cada bucket.
   // Las tablas estan con un a y b aleatorio desde el inicio
@@ -53,15 +59,15 @@ int main() {
   // Una vez creada cada lista hay que escoger los a y b para cada
   // lista que no genera colisiones.
   std::cout << "[+] Calculando a_j y b_j para cada lista..." << std::endl;
-  for (int i = 0; i < k1.size(); ++i) {
-    newTable.clusterBj(k1[i]);
+  for (itr = set1.begin(); itr != set1.end(); ++itr) {
+    newTable.clusterBj(*itr);
   }
   int cont = 0;
   for (int i = 0; i < m; ++i) {
     if (newTable.cCounti(i) == 0) {
       // std::cout << "[+] No hay colisiones, las variables a_j y b_j son: ";
-      // std::pair<int, int> p = newTable.getAB(i);
-      // std::cout << p.first << " " << p.second << std::endl;
+      std::pair<int, int> p = newTable.getAB(i);
+      std::cout << p.first << " " << p.second << std::endl;
       cont++;
     }
   }

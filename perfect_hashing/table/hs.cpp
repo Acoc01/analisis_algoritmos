@@ -108,7 +108,7 @@ long long int pHash::cCount() {
   long long int sum = 0;
   for (int i = 0; i < this->table.size(); ++i) {
     // Se considera colision si cae mas de un elemento en i.
-    if (this->table[i].c > 1)
+    if (this->table[i].c >= 1)
       sum += pow(this->table[i].c, 2);
   }
   for (int i = 0; i < this->table.size(); ++i) {
