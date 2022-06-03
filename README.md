@@ -2,7 +2,7 @@
 
 Primer nivel para 4n:
 [+] La cantidad de veces que se repitio el hashing hasta cumplir prop 1 es: 1
-[+] Para constante a_i e b_i: 5030443 3361191
+[+] Para constante a_i e b_i: 7021211 2174760
 
 Primer nivel para 3n:
 [+] La cantidad de veces que se repitio el hashing hasta cumplir prop 1 es: 1

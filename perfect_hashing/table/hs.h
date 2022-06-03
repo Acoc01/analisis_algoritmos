@@ -15,6 +15,7 @@ struct mini_list {
 // Estructura del bucket
 struct bucket_t {
   int c;
+  std::vector<std::string> si;
   mini_list list_i;
 };
 
@@ -50,7 +51,8 @@ public:
   void clusterBi(std::string kmer);
   // Funcion que verifica cuantas colisiones hay
   // En cada lista Bj
-  void clusterBj(std::string kmer);
+  // Funcion modificada, antes recibia kmer.
+  void clusterBj();
   // Funcion que verifica numeros de colisiones en la tabla.
   long long int cCount();
   // Funcion que verifica numeros de colisiones en la lista_i.

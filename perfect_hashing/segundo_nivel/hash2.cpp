@@ -39,7 +39,7 @@ int main() {
     set1.insert(k1[i]);
   }
   // Para prueba 1 hacer m = n.
-  int n = S * (x - 15 + 1);
+  int n = set1.size();
   // Numero de buckets
   int m = n;
   std::set<std::string>::iterator itr;
@@ -47,7 +47,7 @@ int main() {
   pHash newTable(m, 7342117);
   //   Sacamos el hashing de todos los k-mers
   newTable.modAB();
-  newTable.setAB(6273927, 6617981);
+  newTable.setAB(7021211, 2174760);
   std::cout << "[+] Calculando posicion de cada kmer..." << std::endl;
   for (itr = set1.begin(); itr != set1.end(); ++itr) {
     newTable.clusterBi(*itr);
@@ -55,25 +55,53 @@ int main() {
   // Ahora debemos crear las tablas para cada bucket.
   // Las tablas estan con un a y b aleatorio desde el inicio
   std::cout << "[+] Creando listas para cada Bucket..." << std::endl;
-  newTable.makeList();
+  //  newTable.makeList();
   // Una vez creada cada lista hay que escoger los a y b para cada
   // lista que no genera colisiones.
   std::cout << "[+] Calculando a_j y b_j para cada lista..." << std::endl;
-  for (itr = set1.begin(); itr != set1.end(); ++itr) {
-    newTable.clusterBj(*itr);
-  }
-  int cont = 0;
-  for (int i = 0; i < m; ++i) {
-    if (newTable.cCounti(i) == 0) {
-      // std::cout << "[+] No hay colisiones, las variables a_j y b_j son: ";
-      std::pair<int, int> p = newTable.getAB(i);
-      std::cout << p.first << " " << p.second << std::endl;
-      cont++;
-    }
-  }
-  if (cont == m) {
-    std::cout << "[+] No hay colisiones en ninguna lista." << std::endl;
-  }
+  newTable.clusterBj();
+  /* for (itr = set1.begin(); itr != set1.end(); ++itr) {
+     newTable.clusterBj(*itr);
+   }
+   int cont = 0;
+   for (int i = 0; i < m; ++i) {
+     if (newTable.cCounti(i) == 0) {
+       // std::cout << "[+] No hay colisiones, las variables a_j y b_j son: ";
+       //      std::pair<int, int> p = newTable.getAB(i);
+       //      std::cout << p.first << " " << p.second << std::endl;
+       cont++;
+     }
+   }
+   if (cont == m) {
+     std::cout << "[+] No hay colisiones en ninguna lista." << std::endl;
+   } else {
+     std::cout << "[-] Hay colisiones, para ser preciso hay: " << m - cont
+               << " colisiones" << std::endl;
+     std::cout << "[+] Recalculando variables para cada lista..." << std::endl;
+     cont = 0;
+     int veces = 0;
+     while (cont < m) {
+       srand(time(NULL));
+       newTable.makeList();
+       cont = 0;
+       veces++;
+       for (itr = set1.begin(); itr != set1.end(); ++itr) {
+         newTable.clusterBj(*itr);
+       }
+       for (int i = 0; i < m; ++i) {
+         if (newTable.cCounti(i) == 0) {
+           cont++;
+         }
+       }
+       if (cont == m) {
+         std::cout << "[+] No hay colisiones en ningula lista." << std::endl;
+         break;
+       } else {
+         std::cout << "[-] Hay colisiones, para ser preciso hay: " << m - cont
+                   << " colisiones" << std::endl;
+       }
+     }
+   }*/
   return 0;
 }
 
