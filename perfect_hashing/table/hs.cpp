@@ -67,20 +67,14 @@ void pHash::modifyTable() {
 }
 
 // Genera una nueva lista de tamanio ci^2.
-void pHash::makeList() {
-  for (int pos = 0; pos < this->tam_bucket; pos++) {
-    this->table[pos].list_i.ai = 0;
-    this->table[pos].list_i.bi = 0;
-    this->table[pos].list_i.ci = 0;
-    if (this->table[pos].c > 0) {
-      this->table[pos].list_i.buck.clear();
-      int tam = pow((double)this->table[pos].c, 2);
-      this->table[pos].list_i.mi = tam;
-      std::vector<std::string> nwv(tam);
-      this->table[pos].list_i.buck = nwv;
-      this->modAB(pos);
-    }
-  }
+void pHash::makeList(int a, int b, int m, int pos) {
+  this->table[pos].list_i.ai = a;
+  this->table[pos].list_i.bi = b;
+  this->table[pos].list_i.mi = m;
+  int tam = pow(m, 2);
+  std::vector<std::string> aux(tam);
+  this->table[pos].list_i.buck = aux;
+  aux.clear();
 }
 // Hace push de un elemento en el bucket para ver cuantas
 // Colisiones se crean en el bucket i
@@ -96,7 +90,12 @@ funcion que calcula la posicion del kmer dentro de la lista de ese
 bucket. Si encuentra colisiones le suma a una variable que cuenta
 el numero de colisiones de la lista de ese bucket.
 La idea es repetir este proceso llamando a modAB(pos) antes de calcular
-todos los clusters de todas las listas hasta que esos cluster sean 0.*/
+todos los clusters de todas las listas hasta que esos cluster sean 0.
+
+Esta funcion actualmente lo que hace es revisar todos los sub conjuntos S_i
+y calcula las variables a y b si hay mas de un elemento, los inserta sin
+colisiones En el caso de que haya solo un elemento, inserta ese elemento en la
+lista.*/
 
 // Funcion modificada, antes recibia kmer ahora nada.
 void pHash::clusterBj() {
@@ -146,8 +145,8 @@ void pHash::clusterBj() {
       // Si no hay colisiones en esta lista se imprimen las variables
       // Y la cantidad de veces. Luego se pasa al siguiente bucket
       if (this->table[i].list_i.ci == 0) {
-        std::cout << ai << " " << bi << " #" << i << " Tardo: " << cont
-                  << " veces." << std::endl;
+        // std::cout << ai << " " << bi << " " << mi << " " << i << std::endl;
+        //<< " Tardo: " << cont << " veces." << std::endl;
         listas_sin_colision++;
       } else {
         // En caso contrario se repite el ciclo anterior hasta que no hayan
@@ -179,13 +178,19 @@ void pHash::clusterBj() {
             }
           }
         }
-        std::cout << ai << " " << bi << " #" << i << " Tardo: " << cont
-                  << " veces." << std::endl;
+        // std::cout << ai << " " << bi << " " << mi << " " << i << std::endl;
+        //  std::cout << ai << " " << bi << " #" << i << " Tardo: " << cont
+        //           << " veces." << std::endl;
         listas_sin_colision++;
+      }
+      // Si hay un solo elemento en ese bucket se guarda en la lista.
+    } else if (this->table[i].c == 1) {
+      for (int j = 0; j < this->table[i].si.size(); ++j) {
+        this->table[i].list_i.buck.push_back(this->table[i].si[j]);
       }
     }
   }
-  std::cout << "Listas sin colisiones: " << listas_sin_colision << std::endl;
+  // std::cout << "Listas sin colisiones: " << listas_sin_colision << std::endl;
 }
 // Cuenta cuantas colisiones hay en total en el la tabla
 long long int pHash::cCount() {
@@ -194,7 +199,7 @@ long long int pHash::cCount() {
     // Se considera colision si cae mas de un elemento en i.
     if (this->table[i].c >= 1)
       sum += pow(this->table[i].c, 2);
-    std::cout << "c#" << i << ": " << this->table[i].c << std::endl;
+    // std::cout << "c#" << i << ": " << this->table[i].c << std::endl;
   }
   for (int i = 0; i < this->table.size(); ++i) {
     this->table[i].si.clear();
@@ -205,6 +210,20 @@ long long int pHash::cCount() {
 
 long long int pHash::cCounti(int pos) { return this->table[pos].list_i.ci; }
 
+void pHash::insertInto(std::string kmer) {
+  int pos = hashFun(kmer, this->prm, this->tam_bucket, this->a, this->b);
+  int mi = this->table[pos].list_i.mi;
+  int ai = this->table[pos].list_i.ai;
+  int bi = this->table[pos].list_i.bi;
+  int j;
+  if (this->table[pos].c > 1) {
+
+    j = hashFun(kmer, this->prm, mi, ai, bi);
+    this->table[pos].list_i.buck[j] = kmer;
+  } else if (this->table[pos].c == 1) {
+    this->table[pos].list_i.buck.push_back(kmer);
+  }
+}
 /*Modifica a y b de forma aleatoria*/
 void pHash::modAB() {
   this->a = randInt(this->prm);
@@ -239,4 +258,40 @@ void pHash::setAB(int a, int b) {
 void pHash::setAB(int a, int b, int pos) {
   this->table[pos].list_i.ai = a;
   this->table[pos].list_i.bi = b;
+}
+// Funcion que busca los elementos en la tabla
+bool pHash::searchElem(std::string kmer) {
+  // Aplicamos la primera funcion hash de primer nivel para obtener el bucket
+  int i = hashFun(kmer, this->prm, this->tam_bucket, this->a, this->b);
+  int mi = this->table[i].list_i.mi;
+  int ai = this->table[i].list_i.ai;
+  int bi = this->table[i].list_i.bi;
+  int j;
+  // Si el bucket tiene mas de un elemento aplicamos
+  // la funcion hash_i del bucket i
+  if (this->table[i].c > 1) {
+    j = hashFun(kmer, this->prm, mi, ai, bi);
+    // Si el elemento existe y es igual al kmer buscado, retorna true
+    if (this->table[i].list_i.buck[j] == kmer) {
+      // std::cout << "Elemento en bucket: " << i << " pos: " << j << " " <<
+      // kmer
+      //          << std::endl;
+      return true;
+    } else
+      return false;
+    // Si el bucket tiene solo un elemento
+    // simplemente verificamos si ese elemento es el kmer
+  } else if (this->table[i].c == 1) {
+    if (this->table[i].list_i.buck[0] == kmer) {
+      // std::cout << "Elemento en bucket: " << i << " pos: 0"
+      //          << " " << kmer << std::endl;
+      return true;
+    } else {
+      return false;
+    }
+  } else
+    // Si la posicion del primer hash da 0 significa que el elemento buscado no
+    // existe.
+    std::cout << "Hay 0 elementos en la posicion indicada" << std::endl;
+  return false;
 }

@@ -60,6 +60,24 @@ int main() {
   // lista que no genera colisiones.
   std::cout << "[+] Calculando a_j y b_j para cada lista..." << std::endl;
   newTable.clusterBj();
+  /*  std::cout << "[+] Insertando elementos..." << std::endl;
+    for (itr = set1.begin(); itr != set1.end(); ++itr) {
+      newTable.insertInto(*itr);
+    }*/
+  std::cout << "[+] Elementos insertados" << std::endl;
+  std::cout << "[+] Verificando que los elementos insertados esten completos"
+            << std::endl;
+  int cont = 0;
+  for (itr = set1.begin(); itr != set1.end(); ++itr) {
+    if (newTable.searchElem(*itr))
+      cont++;
+    // else
+    //  std::cout << "Elemento no encontrado: " << *itr << std::endl;
+  }
+  if (cont == set1.size())
+    std::cout << "Todos los elementos fueron encontrados" << std::endl;
+  else
+    std::cout << "Elementos encontrados: " << cont << "de " << m << std::endl;
   /* for (itr = set1.begin(); itr != set1.end(); ++itr) {
      newTable.clusterBj(*itr);
    }

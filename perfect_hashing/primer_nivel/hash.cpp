@@ -72,7 +72,6 @@ int main() {
     std::cout << "[+] Maximo permitido: " << prop1 << std::endl;
     std::cout << "[+] Para constante a_i e b_i: " << ai << " " << bi
               << std::endl;
-    std::cout << "[+] Colisiones de cada Bucket: " << std::endl;
   } else {
     while (sum > prop1) {
       std::cout << "[-] La funcion no es optima." << std::endl;
@@ -95,7 +94,6 @@ int main() {
         int a_i2 = p2.first, b_i2 = p2.second;
         std::cout << "[+] Para constante a_i e b_i: " << a_i2 << " " << b_i2
                   << std::endl;
-        std::cout << "[+] Colisiones de cada Bucket: " << std::endl;
         break;
       }
     }

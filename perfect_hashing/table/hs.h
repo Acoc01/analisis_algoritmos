@@ -45,7 +45,7 @@ public:
   // debuguear la tabla
   void modifyTable();
   // Funcion que crea la Lista para cada Bucket
-  void makeList();
+  void makeList(int a, int b, int m, int pos);
   // Funcion que verifica cuantas colisiones hay
   // En el bucket i
   void clusterBi(std::string kmer);
@@ -57,6 +57,8 @@ public:
   long long int cCount();
   // Funcion que verifica numeros de colisiones en la lista_i.
   long long int cCounti(int pos);
+  // Funcion que inserta los elementos de S_i en el Bucket_i
+  void insertInto(std::string kmer);
   // Funcion que define el todos los kmers.
   void clear();
   // Funcion que setea un a y b aleatorio
@@ -68,5 +70,7 @@ public:
   // Funcion que setea a y b correspondiente
   void setAB(int a, int b);
   void setAB(int a, int b, int pos);
+  // Funcion para buscar elemento
+  bool searchElem(std::string kmer);
 };
 #endif

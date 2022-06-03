@@ -3,7 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <random>
-#include <utility>
+#include <set>
 #include <vector>
 
 void kmers(std::vector<std::string> &v1, std::string seg, int k);
@@ -18,6 +18,7 @@ int main() {
   int S = 0, x = 15;
   std::ifstream newFile(filename);
   std::vector<std::string> k1;
+  std::set<std::string> set1;
 
   std::cout << "[+] Calculando tamaño del archivo y generando k-mers..."
             << std::endl;
@@ -33,49 +34,49 @@ int main() {
     }
     newFile.close();
   }
-
+  std::cout << "[+] Acomodando elementos repetidos..." << std::endl;
+  for (int i = 0; i < k1.size(); ++i) {
+    set1.insert(k1[i]);
+  }
+  k1.clear();
   // Para prueba 1 hacer m = n.
-  int n = S * (x - 15 + 1);
+  int n = set1.size();
   // Numero de buckets
   int m = n;
+  std::set<std::string>::iterator itr;
 
   pHash newTable(m, 7342117);
   //   Sacamos el hashing de todos los k-mers
   newTable.modAB();
-  newTable.setAB(6152820, 1965429);
-  std::cout << "[+] Calculando posicion de cada kmer..." << std::endl;
-  for (int i = 0; i < k1.size(); ++i) {
-    newTable.clusterBi(k1[i]);
-  }
+  newTable.setAB(7021211, 2174760);
   // Ahora debemos crear las tablas para cada bucket.
   // Las tablas estan con un a y b aleatorio desde el inicio
   std::cout << "[+] Creando listas para cada Bucket..." << std::endl;
-  newTable.makeList();
+  //  newTable.makeList();
   // Una vez creada cada lista hay que escoger los a y b para cada
   // lista que no genera colisiones.
-  std::cout << "[+] Calculando a_j y b_j para cada lista..." << std::endl;
-  std::vector<std::pair<int, int>> ajbj;
-  std::pair<int, int> a;
-  int aj, bj;
-  while (std::cin >> aj >> bj) {
-    a = std::make_pair(aj, bj);
-    ajbj.push_back(a);
+  std::cout << "[+] Leyendo archivo..." << std::endl;
+  std::cout << "[+] Actualizando aj y bj..." << std::endl;
+  int ai, bi, mi, posi;
+  while (std::cin >> ai >> bi >> mi >> posi) {
+    newTable.makeList(ai, bi, mi, posi);
   }
-  for (int i = 0; i < k1.size(); ++i) {
-    newTable.clusterBj(k1[i]);
+  std::cout << "[+] Calculando posicion de cada kmer..." << std::endl;
+  for (itr = set1.begin(); itr != set1.end(); ++itr) {
+    newTable.insertInto(*itr);
   }
+  std::cout << "[+] Buscando elementos en la tabla" << std::endl;
   int cont = 0;
-  for (int i = 0; i < m; ++i) {
-    if (newTable.cCounti(i) == 0) {
-      // std::cout << "[+] No hay colisiones, las variables a_j y b_j son: ";
-      std::pair<int, int> p = newTable.getAB(i);
-      std::cout << p.first << " " << p.second << std::endl;
+  for (itr = set1.begin(); itr != set1.end(); ++itr) {
+    if (newTable.searchElem(*itr))
       cont++;
-    }
   }
-  if (cont == m) {
-    std::cout << "[+] No hay colisiones en ninguna lista." << std::endl;
-  }
+  if (cont == set1.size())
+    std::cout << "[+] Todos los k-mers estan en la tabla" << std::endl;
+  else
+    std::cout << "[-] Hay k-mers que no se insertaron, revisar." << std::endl;
+  newTable.clear();
+  set1.clear();
   return 0;
 }
 
